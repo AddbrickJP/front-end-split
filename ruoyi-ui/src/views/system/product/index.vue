@@ -1,48 +1,130 @@
 <template>
-    <div>
-        <el-card class="box-card">
-            <div class="upload-container">
-                <el-upload
-                    class="upload-demo"
-                    action="#"
-                    :on-change="handleFileChange"
-                    :auto-upload="false"
-                    accept=".csv">
-                    <el-button type="primary">选择CSV文件</el-button>
-                    <div slot="tip" class="el-upload__tip">只能上传 CSV 文件</div>
-                </el-upload>
-            </div>
-        </el-card>
-        <div id="main" style="width: 600px;height:400px;"></div>
+    <div class="container">
+                <div id="main" style="width: 60%;height:400px;"></div>
+                <!-- <bin></bin> -->
     </div>
 </template>
 
 <script>
 import * as echarts from 'echarts';
-
+import FileUp from './components/fileup.vue'
+import Bin from './components/bin.vue'
+const colors = ['#5470C6', '#91CC75', '#EE6666'];
 export default {
+    components: {
+        FileUp,
+        Bin
+    },
     data() {
         return {
             myChart: null,
-            chartData: {
-                xAxisData: ['衬衫', '羊毛衫', '雪纺衫', '裤子', '高跟鞋', '袜子'],
-                seriesData: [5, 20, 36, 10, 10, 20]
-            },
-            chartOptions: {
-                title: {
-                    text: 'ECharts 入门示例'
-                },
-                tooltip: {},
-                xAxis: {
-                    data: []
-                },
-                yAxis: {},
-                series: [{
-                    name: '销量',
-                    type: 'bar',
-                    data: []
-                }]
-            }
+            // colors : ['#5470C6', '#91CC75', '#EE6666'],
+            option : {
+  color: colors,
+  tooltip: {
+    trigger: 'axis',
+    axisPointer: {
+      type: 'cross'
+    }
+  },
+  grid: {
+    right: '20%'
+  },
+  toolbox: {
+    feature: {
+      dataView: { show: true, readOnly: false },
+      restore: { show: true },
+      saveAsImage: { show: true }
+    }
+  },
+  legend: {
+    data: ['折扣力度', '评论数量', '评分']
+  },
+  xAxis: [
+    {
+      type: 'category',
+      axisTick: {
+        alignWithLabel: true
+      },
+      // prettier-ignore
+      data: ['sandisk1', 'sandisk2', 'sandisk3', 'sandisk4', 'sandisk5']
+    }
+  ],
+  yAxis: [
+    {
+      type: 'value',
+      name: '折扣力度',
+      position: 'right',
+      alignTicks: true,
+      axisLine: {
+        show: true,
+        lineStyle: {
+          color: colors[0]
+        }
+      },
+      axisLabel: {
+        formatter: '{value} '
+      }
+    },
+    {
+      type: 'value',
+      name: '评论数量',
+      position: 'right',
+      alignTicks: true,
+      offset: 80,
+      axisLine: {
+        show: true,
+        lineStyle: {
+          color: colors[1]
+        }
+      },
+      axisLabel: {
+        formatter: '{value}'
+      }
+    },
+    {
+      type: 'value',
+      name: '评分',
+      position: 'left',
+      alignTicks: true,
+      axisLine: {
+        show: true,
+        lineStyle: {
+          color: colors[2]
+        }
+      },
+      axisLabel: {
+        formatter: '{value}'
+      }
+    }
+  ],
+  series: [
+    {
+      name: '折扣力度',
+      type: 'bar',
+      data: [
+       135.6, 162.2, 132.6, 120.0, 116.4
+      ]
+    },
+    {
+      name: '评论数量',
+      type: 'bar',
+      yAxisIndex: 1,
+      data: [
+      71768, 21982, 68198, 215311, 68198, 
+      ]
+    },
+    {
+      name: '评分',
+      type: 'line',
+      yAxisIndex: 2,
+      data: [4.4, 4.5, 4.4, 4.5, 4.4]
+    }
+  ]
+}
+
+           
+
         }
     },
     mounted() {
@@ -51,47 +133,18 @@ export default {
         })
     },
     methods: {
+      
         initChart() {
             // 初始化图表
             this.myChart = echarts.init(document.getElementById('main'))
-            
-            // 设置数据
-            this.chartOptions.xAxis.data = this.chartData.xAxisData
-            this.chartOptions.series[0].data = this.chartData.seriesData
-            
             // 绘制图表
-            this.myChart.setOption(this.chartOptions)
+            this.myChart.setOption(this.option)
         },
-        handleFileChange(file) {
-            const reader = new FileReader()
-            reader.onload = (e) => {
-                const text = e.target.result
-                this.parseCSV(text)
-            }
-            reader.readAsText(file.raw)
-        },
-        parseCSV(csv) {
-            const lines = csv.split('\n')
-            const xAxisData = []
-            const seriesData = []
 
-            // 跳过标题行，从第二行开始解析
-            for (let i = 1; i < lines.length; i++) {
-                if (lines[i]) {
-                    const [name, value] = lines[i].split(',')
-                    xAxisData.push(name)
-                    seriesData.push(parseFloat(value))
-                }
-            }
-
-            // 更新图表数据
-            this.chartData.xAxisData = xAxisData
-            this.chartData.seriesData = seriesData
-            this.initChart()
-
-            this.$message.success('CSV文件解析成功')
-        }
     },
+
+  
+
     beforeDestroy() {
         // 销毁图表实例，避免内存泄漏
         if (this.myChart) {
@@ -103,14 +156,17 @@ export default {
 </script>
 
 <style scoped>
+.container {
+    padding: 20px;
+}
+.content-wrapper {
+    max-width: 1200px;
+    margin: 0 auto;
+}
+.chart-card {
+    margin-top: 20px;
+}
 #main {
     margin: 20px auto;
-}
-.upload-container {
-    margin-bottom: 20px;
-}
-.el-upload__tip {
-    color: #909399;
-    margin-top: 8px;
 }
 </style>

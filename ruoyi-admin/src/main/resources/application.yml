@@ -127,3 +127,8 @@ xss:
   excludes: /system/notice
   # 匹配链接
   urlPatterns: /system/*,/monitor/*,/tool/*
+
+# Hadoop配置
+hadoop:
+  namenode: hdfs://192.168.31.93:9000
+  username: root
