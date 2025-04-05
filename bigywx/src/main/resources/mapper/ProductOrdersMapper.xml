@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.bigywx.mapper.ProductOrdersMapper">
+    <resultMap type="com.bigywx.bean.ProductOrders" id="ProductOrdersResult">
+        <id property="orderId" column="order_id"/>
+        <result property="productId" column="product_id"/>
+        <result property="productName" column="product_name"/>
+        <result property="category" column="category"/>
+        <result property="color" column="color"/>
+        <result property="size" column="size"/>
+        <result property="quantity" column="quantity"/>
+
+        <result property="buyPrice" column="buy_price"/>
+        <result property="sellPrice" column="sell_price"/>
+
+        <result property="price" column="price"/>
+        <result property="stockQuantity" column="stock_quantity"/>
+        <result property="restockThreshold" column="restock_threshold"/>
+        <result property="orderDate" column="order_date"/>
+        <result property="orderQuantity" column="order_quantity"/>
+        <result property="buyer" column="buyer"/>
+        <result property="orderStatus" column="order_status"/>
+        <result property="shippingCity" column="shipping_city"/>
+        <result property="shippingFee" column="shipping_fee"/>
+        <result property="totalPrice" column="total_price"/>
+        <result property="shipState" column="ship_state"/>
+        <result property="shipSity" column="ship_sity"/>
+
+<!--        新增字段-->
+        <result property="orderNo" column="price"/>
+        <result property="orderQuantity" column="order_quantity"/>
+        <result property="shippingFee" column="shipping_fee"/>
+
+
+
+    </resultMap>
+    <select id="getProductOrdersList" resultMap="ProductOrdersResult">
+        select * from productOrders
+    </select>
+</mapper>

@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.bigywx.mapper.ProductMapper">
+    <resultMap type="com.bigywx.bean.Product" id="ProductResult">
+        <id     property="id"           column="id"            />
+        <result property="name"         column="name"          />
+        <result property="mainCategory" column="main_category" />
+        <result property="subCategory"  column="sub_category"  />
+        <result property="image"        column="image"         />
+        <result property="link"         column="link"          />
+        <result property="ratings"      column="ratings"       />
+        <result property="noOfRatings"  column="no_of_ratings" />
+        <result property="discountPrice" column="discount_price"/>
+        <result property="actualPrice"   column="actual_price"  />
+    </resultMap>
+    <select id="selectProductList" resultMap="ProductResult">
+        select * from products
+    </select>
+</mapper>

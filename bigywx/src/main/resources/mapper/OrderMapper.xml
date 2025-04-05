@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.bigywx.mapper.OrderMapper">
+    <resultMap type="com.bigywx.bean.OrderBe" id="OrderResult">
+        <id property="id" column="id"/>
+        <result property="orderNo" column="order_no"/>
+        <result property="orderDate" column="order_date"/>
+        <result property="buyer" column="buyer"/>
+        <result property="shipCity" column="ship_city"/>
+        <result property="shipState" column="ship_state"/>
+        <result property="sku" column="sku"/>
+        <result property="description" column="description"/>
+        <result property="quantity" column="quantity"/>
+        <result property="itemTotal" column="item_total"/>
+        <result property="shippingFee" column="shipping_fee"/>
+        <result property="cod" column="cod"/>
+        <result property="orderStatus" column="order_status"/>
+    </resultMap>
+    <select id="getOrderList" resultMap="OrderResult">
+        select * from orders
+    </select>
+</mapper>

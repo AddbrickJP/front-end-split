@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.bigywx.mapper.InventoryMapper">
+    <resultMap type="com.bigywx.bean.Inventory" id="InventoryResult">
+        <id property="name" column="name"/>
+        <result property="variation" column="variation"/>
+        <result property="diy" column="diy"/>
+        <result property="buyPrice" column="buy_price"/>
+        <result property="sellPrice" column="sell_price"/>
+        <result property="color1" column="color1"/>
+        <result property="color2" column="color2"/>
+        <result property="size" column="size"/>
+        <result property="milesPrice" column="miles_price"/>
+        <result property="source" column="source"/>
+        <result property="seasonalAvailability" column="seasonal_availability"/>
+        <result property="mannequinPiece" column="mannequin_piece"/>
+        <result property="version" column="version"/>
+        <result property="style" column="style"/>
+        <result property="labelThemes" column="label_themes"/>
+        <result property="type" column="type"/>
+        <result property="villagerEquippable" column="villager_equippable"/>
+        <result property="catalog" column="catalog"/>
+        <result property="filename" column="filename"/>
+        <result property="internalId" column="internal_id"/>
+        <result property="uniqueEntryId" column="unique_entry_id"/>
+    </resultMap>
+    <select id="getInventoryList" resultMap="InventoryResult">
+        select * from inventory
+    </select>
+</mapper>
