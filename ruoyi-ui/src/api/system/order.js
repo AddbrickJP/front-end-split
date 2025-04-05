@@ -9,3 +9,12 @@ export function listOrder(query) {
     params: query
   })
 }
+
+//  
+export function getOrder(query) {
+  return request({
+    url: '/productorders/hotmap',
+    method: 'get',
+    params: query
+  })
+}

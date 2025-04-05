@@ -24,7 +24,7 @@
         <result property="shippingFee" column="shipping_fee"/>
         <result property="totalPrice" column="total_price"/>
         <result property="shipState" column="ship_state"/>
-        <result property="shipSity" column="ship_sity"/>
+        <result property="shipCity" column="ship_city"/>
 
 <!--        新增字段-->
         <result property="orderNo" column="price"/>

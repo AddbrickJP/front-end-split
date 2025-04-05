@@ -27,5 +27,8 @@ public interface ProductOrdersService {
     // 商品库存
     public Map<String, Object> countStock();
 
+    //
+    public List<Map<String, Object>> counthotmap();
+
 
 }

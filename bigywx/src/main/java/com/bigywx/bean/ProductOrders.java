@@ -39,7 +39,7 @@ public class ProductOrders {
 //    private String orderQuantity; // 订单购买数量
     private String buyer; // 购买人
 
-    private String shipSity; // 收货城市
+    private String shipCity; // 收货城市
 //    private double shippingFee;
     private String totalPrice; // 实际支付总金额
     private String shipState; // 发货城市

@@ -177,5 +177,50 @@ public class ProductOrdersServiceImpl implements ProductOrdersService {
         return result;
     }
 
+    @Override
+    public List<Map<String, Object>> counthotmap() {
+        // 先获取所有数据
+        List<ProductOrders> orderList =   productOrdersMapper.getProductOrdersList();
+
+        // 使用Map来统计每个城市的订单数量
+        Map<String, Integer> locationMap = new HashMap<>();
+
+        for (ProductOrders order : orderList) {
+            System.out.println(order);
+            String city = order.getShipCity();
+            System.out.println(city);
+            // 如果city为空，则跳过
+            if (city == null || city.trim().isEmpty()) {
+                continue;
+            }
+
+            // 将城市名称转换为统一格式（去除空格，统一大小写）
+            city = city.trim().toLowerCase();
+
+            // 更新城市的订单数量
+            locationMap.put(city, locationMap.getOrDefault(city, 0) + 1);
+        }
+
+        // 转换为前端需要的格式
+        List<Map<String, Object>> result = new ArrayList<>();
+        for (Map.Entry<String, Integer> entry : locationMap.entrySet()) {
+            Map<String, Object> map = new HashMap<>();
+            map.put("name", capitalizeFirstLetter(entry.getKey())); // 首字母大写
+            map.put("value", entry.getValue());
+            result.add(map);
+        }
+
+        return result;
+    }
+
+
+    // 将字符串的首字母大写（用于修正城市名称格式）
+    private String capitalizeFirstLetter(String str) {
+        if (str == null || str.isEmpty()) {
+            return str;
+        }
+        return str.substring(0, 1).toUpperCase() + str.substring(1);
+    }
+
 
 }

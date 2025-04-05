@@ -43,7 +43,59 @@
 <script>
 import * as echarts from 'echarts';
 // 导入接口
-import { listOrder } from '../../../../src/api/system/order.js'
+import { listOrder,getOrder } from '../../../../src/api/system/order.js'
+const uploadedDataURL = require(`../../../assets/static/china.json`);
+const provinceMap = {
+  // 标准拼音映射
+  'Beijing': '北京',
+  'tianjin': '天津',
+  'hebei': '河北',
+  'shanxi': '山西',
+  'neimenggu': '内蒙古',
+  'liaoning': '辽宁',
+  'jilin': '吉林',
+  'heilongjiang': '黑龙江',
+  
+  // 华东地区
+  'Shanghai': '上海',
+  'jiangsu': '江苏',
+  'zhejiang': '浙江',
+  'anhui': '安徽',
+  'fujian': '福建',
+  'jiangxi': '江西',
+  'shandong': '山东',
+  
+  // 华中地区
+  'henan': '河南',
+  'hubei': '湖北',
+  'hunan': '湖南',
+  'Guangdong': '广东',
+  'Guangzhou': '广东',
+  'Shenzhen': '广东',
+  'guangxi': '广西',
+  'hainan': '海南',
+  
+  // 西南地区
+  'chongqing': '重庆',
+  'sichuan': '四川',
+  'Chengdu':'四川',
+
+  'guizhou': '贵州',
+  'yunnan': '云南',
+  'xizang': '西藏',
+  
+  // 西北地区
+  'shanxi': '陕西',
+  'gansu': '甘肃',
+  'qinghai': '青海',
+  'ningxia': '宁夏',
+  'xinjiang': '新疆',
+  
+  // 特别行政区
+  'xianggang': '香港',
+  'aomen': '澳门',
+  'taiwan': '台湾'
+}
 
 export default {
   data() {
@@ -56,30 +108,60 @@ export default {
 
       option: {
         title: {
-          text: '不同时间订单量'
+          text: "销售热力图",//表头
+          x: "center",
         },
-        xAxis: {
-          type: 'category',
-          // 英文月份
-          data: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']
-        },
-        yAxis: {
-          type: 'value'
+        // dataRange: {
+        //   min: 0,
+        //   max: 250,
+        //   text: ["高", "低"],
+        //   realtime: true,
+        //   calculable: true,
+        //   color: ["darkred" , "red", "orangered", "yellow"],//颜色
+        // },
+        // 改用新版 visualMap 配置
+        visualMap: {
+          type: 'continuous',
+          min: 0,
+          max: 250,
+          text: ['高', '低'],
+          realtime: true,
+          calculable: true,
+          inRange: {
+            color: ['#FFFF00', '#FFA500', '#FF0000', '#8B0000'] // 颜色渐变
+          }
         },
         series: [
           {
-            // 还差5个月数据
-            data: [150, 230, 224, 218, 135, 147, 260, 150, 230, 224, 218, 135, 147, 260],
-            type: 'line'
-          }
-        ]
+            name: "销售热力图",
+            type: "map",
+            map: "中国",
+            roam: true, // 允许缩放拖动
+            // label: {
+            //   show: true // 显示省份名称
+            // },
+            mapLocation: {
+              y: 0,
+            },
+            itemSytle: {
+              emphasis: { label: { show: false } },
+            },
+            data: [
+              { name: "湖南", value: 700 },
+              { name: "广东", value: 1600 },
+              { name: "湖北", value: 500 },
+              { name: "广西", value: 256 },
+              { name: "海南", value: 34 },
+            ],
+          },
+        ],
       }
     }
   },
   created() {
-    listOrder().then(response => {
-      console.log(response);
-    })
+    // listOrder().then(response => {
+    //   console.log(response);
+    // })
   },
   mounted() {
     this.$nextTick(() => {
@@ -90,13 +172,33 @@ export default {
     initChart() {
       // 初始化图表
       this.myChart = echarts.init(document.getElementById('main'))
-      // 绘制图表
-      this.myChart.setOption(this.option)
+    
+      echarts.registerMap("中国", uploadedDataURL);
+
+      getOrder().then(response => {
+        console.log(response);
+        let data = []
+        data = response
+        data.forEach(item => {
+          // console.log(item.name);
+          // console.log(provinceMap["guangzhou"])
+          item.name = provinceMap[item.name]
+          // console.log(item.name);
+          
+        })
+        console.log(data);
+        
+        this.option.series[0].data = data
+        this.myChart.setOption(this.option)
+      })
+   
+      // console.log(this.option.series[0].data);
+      
     },
     getOrderList() {
       listOrder().then(response => {
-        console.log(1111);
-        console.log(response);
+
+        // console.log(response);
         this.tableData = response
         this.dialogVisible = true
       })

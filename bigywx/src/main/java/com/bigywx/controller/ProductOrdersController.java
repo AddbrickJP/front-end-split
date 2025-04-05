@@ -59,4 +59,13 @@ public class ProductOrdersController {
         Map<String, Object> result = productOrdersService.countStock();
         return result;
     }
+
+    // 统计所有订单的地点
+    @RequestMapping("hotmap")
+    public List<Map<String, Object>> hotmap(){
+        List<Map<String, Object>> result = productOrdersService.counthotmap();
+        return result;
+    }
+
+
 }
